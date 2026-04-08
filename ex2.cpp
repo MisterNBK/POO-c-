@@ -4,6 +4,8 @@
 
 using namespace std;
 
+class produto;
+
 class estoque{
     public:
     string Nome;
@@ -19,7 +21,6 @@ class estoque{
         cout << "Preco: " << Preco << endl;
         cout << "Codigo: " << Codigo << endl;
     }
-    void linkarProduto(produto item) { cout << "Linkando produto " << item.Nome << " com estoque " << Nome << endl; }
 
 };
 
@@ -57,29 +58,20 @@ class sistema {
     void registrarFuncionario(funcionario escravo) { Funcionarios.push_back(escravo); }
     void registrarEstoque(estoque estoque) { Estoques.push_back(estoque); }
 
-    void linkarProdutoEstoque(produto item, estoque estoque) {
-        cout << "Linkando produto " << item.Nome << " com estoque " << estoque.Nome << endl;
-        estoque.linkarProduto(item);
-    }
-    
-    void linkarFuncionarioProduto(funcionario escravo, produto item) {
-        cout << "Linkando funcionario " << escravo.Nome << " com produto " << item.Nome << endl;
-        escravo.registrar();
-        item.registrar();
-    }
-    
-    void linkarFuncionarioEstoque(funcionario escravo, estoque estoque) {
-        cout << "Linkando funcionario " << escravo.Nome << " com estoque " << estoque.Nome << endl;
-        escravo.registrar();
-        estoque.registrar();
-    }
-
     void listarProdutos() {
         cout << "Produtos registrados:" << endl;
         for (auto& p : Produtos) {
-            cout << "- " << p.Nome << " (Categoria: " << p.Categoria << ", Codigo: " << p.Codigo << ")" << endl;
+            cout << "- " << p.Nome << " (Categoria: " << p.Categoria << ", Codigo: " << p.Codigo << ", quantidade: " << p.Quantidade << ")" << endl;
         }
     }
+
+    void listarFuncionarios() {
+        cout << "Funcionarios registrados:" << endl;
+        for (auto& f : Funcionarios) {
+            cout << "- " << f.Nome << "(funcao: " << f.Funcao << ")" << endl;
+        }
+    }
+
 
 };
 
@@ -87,8 +79,9 @@ int main() {
     sistema loja;
     string nome, funcao, categoria; int quantidade, codigo; double preco;
     int opcao;
+    do{
+    cout << "1 - Registrar Funcionario\n2 - Registrar Produto\n3 - Listar Produtos\n4 - Listar Funcionarios\n0 - sair" << endl;
     cout << "Digite a opcao: "; cin >> opcao; cin.ignore();
-    cout << "1 - Registrar Funcionario\n2 - Registrar Produto\n3 - Listar Produtos" << endl;
 switch (opcao) {
         case 1: {
     cout << "Digite o nome do funcionario: "; getline(cin, nome);
@@ -100,5 +93,32 @@ switch (opcao) {
             break;
         }
         case 2: {
+    cout << "Digite o nome do produto: "; getline(cin, nome);
+    cout << "Digite a categoria do produto"; getline(cin, categoria);
+    cout << "Digite a quantidade do produto: "; cin >> quantidade;
+    cout << "Digite o preco do produto: "; cin >> preco;
+    cout << "Digite o codigo do produto: "; cin >> codigo;
+    produto prod(nome, quantidade, preco, codigo, categoria);
+    loja.registrarProduto(prod);
+    prod.registrar();
+            break;
+        }
+        case 3: {
+    loja.listarProdutos();
+            break;
+        }
+        case 4:{
+    loja.listarFuncionarios();
+            break;
+        }
+        case 0:{
+            break;
+        }
+        default:
+            cout << "Opcao invalida!" << endl;
+}
+    }while(opcao != 0);
+     
+    
      return 0;
 }

@@ -86,6 +86,18 @@ public:
     void registrarAnimal(Animais animal) { animais.push_back(animal); }
 
     void relacoes() {
+    for( auto& func : funcionarios) {
+        cout << "Funcionario: " << func.Nome << " atende os seguintes animais:" << endl;
+        for (auto& animal : func.AnimaisDeAtendimento) {
+            cout << "- " << animal.Nome << endl;
+        }
+    }
+    for( auto& cliente : clientes) {
+        cout << "Cliente: " << cliente.Nome << " possui os seguintes animais:" << endl;
+        for (auto& animal : cliente.animais) {
+            cout << "- " << animal.Nome << endl;
+        }
+    }
     }
 };
 
@@ -108,7 +120,7 @@ int main() {
         case 1: {
             cout << "Digite o nome do funcionario: "; cin.ignore(); getline(cin, nome);
             cout << "Digite o CPF do funcionario: "; getline(cin, cpf);
-            cout << "Digite o endereco do funcionario: "; cin.ignore(); getline(cin, endereco);
+            cout << "Digite o endereco do funcionario: "; getline(cin, endereco);
             cout << "Digite a funcao do funcionario: "; getline(cin, funcao);
             cout << "Digite o codigo do funcionario: "; cin >> codigo;
 
@@ -120,7 +132,7 @@ int main() {
         case 2: {
             cout << "Digite o nome do cliente: "; cin.ignore(); getline(cin, nome);
             cout << "Digite o CPF do cliente: "; getline(cin, cpf);
-            cout << "Digite o endereco do cliente: "; cin.ignore(); getline(cin, endereco);
+            cout << "Digite o endereco do cliente: "; getline(cin, endereco);
 
             cliente fonteDinheiro(nome, cpf, endereco);
             PS.registrarCliente(fonteDinheiro);
@@ -141,13 +153,14 @@ int main() {
             break;
         }
         case 4: {
-            cout << "Digite o codigo do funcionario: "; cin >> codigo;
-            cout << "Digite o codigo do animal: "; cin >> codigo;
+            int funcCodigo, animalCodigo;
+            cout << "Digite o codigo do funcionario: "; cin >> funcCodigo;
+            cout << "Digite o codigo do animal: "; cin >> animalCodigo;
 
             for (auto& func : PS.funcionarios) {
-                if (func.Codigo == codigo) {
+                if (func.Codigo == funcCodigo) {
                     for (auto& animal : PS.animais) {
-                        if (animal.Codigo == codigo) {
+                        if (animal.Codigo == animalCodigo) {
                             func.linkarAnimal(animal);
                             break;
                         }
@@ -158,11 +171,11 @@ int main() {
             break;
         }
         case 5: {
-            cout << "Digite o codigo do cliente: "; cin >> codigo;
+            cout << "Digite o cpf do cliente: "; cin >> cpf;
             cout << "Digite o codigo do animal: "; cin >> codigo;
             
             for (auto& cliente : PS.clientes) {
-                if (cliente.Cpf == to_string(codigo)) {
+                if (cliente.Cpf == cpf) {
                     for (auto& animal : PS.animais) {
                         if (animal.Codigo == codigo) {
                             cliente.linkarAnimal(animal);
@@ -172,6 +185,10 @@ int main() {
                     break;
                 }
             }
+            break;
+        }
+        case 6:{
+            PS.relacoes();
             break;
         }
         default:
